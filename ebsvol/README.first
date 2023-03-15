@@ -1,0 +1,21 @@
+README first before running terraform plan, apply
+
+Change the availability_zone to the same zone that you are going to create the ec2.
+Change the size to your desired size (i.e., 10GB, 20GB, or 100GB)
+Change the Server Tag to the hostname of your ec2 that you are going to create.
+Change the Mounting Tag to your desired mounting point
+Change the owner Tag to be the unix account that will have a full access on this volume.
+Change the Name Tag to something that describe their usage (i.e., data-volume, log-volume, etc)
+
+resource "aws_ebs_volume" "data-vol" {
+ availability_zone = "us-west-2a"
+ size = 5
+ tags = { 
+           Name = "data-volume",
+           Server = "mydemo",
+           Mounting = "/apps",
+           Owner = "appadmin"
+        }
+}
+
+NOTE that the userdata.sh will execute the script (runcmd) to attach and mount this volume to your ec2.
