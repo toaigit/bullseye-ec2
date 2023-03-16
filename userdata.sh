@@ -1,5 +1,5 @@
 #!/bin/bash
-#  basic userdata for an ec2 with docker engine
+#  basice userdata for an ec2 with docker engine
 
 echo "Info: Executing userdata.sh script."
 
@@ -18,7 +18,7 @@ systemctl restart sshd.service
 
 #  add docker repository (optional)
 apt-get update
-apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common git
+apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common git jq
 curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable"
 
@@ -34,12 +34,13 @@ usermod -a -G docker appadmin
 usermod -a -G sudo appadmin
 
 #  The runcmd-v2 will figure out if there is any additional filesystem to attach and mount.
-#  It also check to see if a reserved fixed IP also need to be set for this server.
+#  The runeip-v2 will figure out if there is a reserved fixed IP to assign to the server.
 
 cd /tmp
 git clone https://github.com/toaigit/post-scripts.git
 cd post-scripts
 ./runcmd-v2
+./runeip-v2
 
 echo "Info: Completed the userdata.sh script"
 #  end of userdata script
